@@ -6,50 +6,80 @@ require("awful.autofocus")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
--- This is used later as the default terminal and editor to run.
-terminal = "wezterm"
+-- {{ default apps
+terminal = "ghostty"
 editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
+-- }}
 
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
+-- {{ mod keys
 modkey = "Mod4"
+-- }}
 
 local last_tag = nil
--- {{{ Key bindings
+
+-- {{{ global bindings
 globalkeys = gears.table.join(
-	awful.key({ modkey, "shift" }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
+	awful.key({ modkey, "Shift" }, "x", function()
+		awful.spawn.with_shell("killall awesome")
+	end, { description = "Logout from awesome", group = "awesome" }),
+	awful.key({ modkey, "Shift" }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
 	awful.key({ modkey }, "Left", awful.tag.viewprev, { description = "view previous", group = "tag" }),
 	awful.key({ modkey }, "Right", awful.tag.viewnext, { description = "view next", group = "tag" }),
 	awful.key({ modkey }, "Escape", awful.tag.history.restore, { description = "go back", group = "tag" }),
 
+	awful.key({ modkey, "Shift" }, "Return", function() 
+		local geo = awful.screen.focused().geometry
+		menubar.geometry = {
+			x = geo.x, y = geo.y,
+			width = geo.width, height = 18
+		}
+		menubar.show_categories = false
+		menubar.right_label = ">>"
+		menubar.left_label = "<<"
+		menubar.show()
+	end, { description = "Open app launcher", group = "app" }),
+
 	awful.key({ modkey }, "j", function()
 		awful.client.focus.byidx(1)
 	end, { description = "focus next by index", group = "client" }),
+
 	awful.key({ modkey }, "k", function()
 		awful.client.focus.byidx(-1)
 	end, { description = "focus previous by index", group = "client" }),
+
 	awful.key({ modkey }, "w", function()
 		mymainmenu:show()
 	end, { description = "show main menu", group = "awesome" }),
+
+	awful.key({ modkey, "Shift" }, "c", function()
+		awful.spawn.with_shell("~/.local/bin/screenshot")
+	end, { description = "take a screenshot", group = "awesome" }),
+
+	-- apply new theme
+	awful.key({ modkey, "Shift" }, "w", function()
+		awful.spawn.with_shell("~/.local/bin/newlock")
+	end, { description = "Apply a new wallpaper and theme", group = "awesome" }),
 
 	-- Layout manipulation
 	awful.key({ modkey, "Shift" }, "j", function()
 		awful.client.swap.byidx(1)
 	end, { description = "swap with next client by index", group = "client" }),
+
 	awful.key({ modkey, "Shift" }, "k", function()
 		awful.client.swap.byidx(-1)
 	end, { description = "swap with previous client by index", group = "client" }),
+
 	awful.key({ modkey, "Control" }, "j", function()
 		awful.screen.focus_relative(1)
 	end, { description = "focus the next screen", group = "screen" }),
+
 	awful.key({ modkey, "Control" }, "k", function()
 		awful.screen.focus_relative(-1)
 	end, { description = "focus the previous screen", group = "screen" }),
+
 	awful.key({ modkey }, "u", awful.client.urgent.jumpto, { description = "jump to urgent client", group = "client" }),
+
 	awful.key({ modkey }, "Tab", function()
 		awful.client.focus.history.previous()
 		if client.focus then
@@ -61,6 +91,11 @@ globalkeys = gears.table.join(
 	awful.key({ modkey }, "Return", function()
 		awful.spawn(terminal)
 	end, { description = "open a terminal", group = "launcher" }),
+
+	awful.key({ modkey }, "e", function()
+		awful.spawn("emacsclient -c -a 'emacs' ")
+	end, { description = "open emacs", group = "launcher" }),
+
 	awful.key({ modkey, "Shift" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "x", awesome.quit, { description = "quit awesome", group = "awesome" }),
 	awful.key({ modkey }, "l", function()
@@ -101,10 +136,6 @@ globalkeys = gears.table.join(
 	--	menubar.show()
 	--end, { description = "show the menubar", group = "launcher" })
 
-	-- Menubar (rofi/dmenu)
-	awful.key({ modkey, "Shift" }, "Return", function()
-		awful.spawn("rofi -show drun -show-icons")
-	end, { description = "show the menubar", group = "launcher" }),
 
 	-- Scratchpad toggle keybinding
 	awful.key({ modkey }, "`", function()
