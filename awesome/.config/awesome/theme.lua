@@ -1,75 +1,115 @@
----------------------------
--- Default awesome theme --
----------------------------
-
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
+local gears = require("gears")
 local dpi = xresources.apply_dpi
-
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
-
-local ColorScheme = {}
-for line in io.lines(os.getenv("HOME") .. "/.cache/wal/" .. "colors") do
-	table.insert(ColorScheme, line)
-end
+local colors = require("colors")
 
 local theme = {}
 
-theme.font = "FiraCode Nerd Font 11"
+theme.font = "FantasqueSansM Nerd Font 10"
 
-theme.bg_normal = ColorScheme[1]
-theme.bg_focus = "#bac2de"
-theme.bg_urgent = "#ff0000"
-theme.bg_minimize = "#444444"
-theme.bg_systray = theme.bg_normal
+-- borders
+theme.useless_gap = 2
+theme.border_width = 1
+theme.border_normal = colors.normal.background
+theme.border_focus = colors.normal.foreground
+theme.border_marked = colors.urgent.background
 
-theme.fg_normal = "#aaaaaa"
-theme.fg_focus = "#ffffff"
-theme.fg_urgent = "#ffffff"
-theme.fg_minimize = "#ffffff"
+-- theming tag list:
+theme.taglist_bg_focus = colors.focused.background
+theme.taglist_fg_focus = colors.focused.foreground
+theme.taglist_bg_urgent = colors.urgent.background
+theme.taglist_fg_urgent = colors.urgent.foreground
+theme.taglist_bg_occupied = colors.normal.background
+theme.taglist_fg_occupied = colors.focused.background
+theme.taglist_bg_empty = colors.normal.background
+theme.taglist_fg_empty = colors.normal.foreground
+theme.taglist_bg_volatile = colors.normal.foreground
+theme.taglist_fg_volatile = colors.normal.foreground
 
-theme.useless_gap = dpi(2)
-theme.border_width = dpi(1)
-theme.border_normal = "#a6e3a1"
-theme.border_focus = "#f38ba8"
-theme.border_marked = "#89b4fa"
+-- theming task list:
+theme.tasklist_bg_focus = colors.focused.background
+theme.tasklist_fg_focus = colors.focused.foreground
+theme.tasklist_bg_urgent = colors.urgent.background
+theme.tasklist_fg_urgent = colors.urgent.foreground
 
--- There are other variable sets
--- overriding the default one when
--- defined, the sets are:
--- taglist_[bg|fg]_[focus|urgent|occupied|empty|volatile]
--- tasklist_[bg|fg]_[focus|urgent]
--- titlebar_[bg|fg]_[normal|focus]
--- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
--- mouse_finder_[color|timeout|animate_timeout|radius|factor]
--- prompt_[fg|bg|fg_cursor|bg_cursor|font]
--- hotkeys_[bg|fg|border_width|border_color|shape|opacity|modifiers_fg|label_bg|label_fg|group_margin|font|description_font]
--- Example:
---theme.taglist_bg_focus = "#ff0000"
+-- theming title bar:
+theme.titlebar_bg_normal = colors.normal.background
+theme.titlebar_fg_normal = colors.normal.foreground
+theme.titlebar_bg_focus = colors.focused.background
+theme.titlebar_fg_focus = colors.focused.foreground
+
+-- theming task list:
+theme.tooltip_font = theme.font
+theme.tooltip_opacity = 1
+theme.tooltip_bg_color = theme.bg_normal
+theme.tooltip_fg_color = theme.fg_normal
+theme.tooltip_border_width = 2
+theme.tooltip_border_color = theme.border_normal
+
+-- theming task list:
+theme.mouse_finder_color = "#ff0000"
+theme.mouse_finder_timeout = 2
+theme.mouse_finder_animate_timeout = 0.5
+theme.mouse_finder_radius = 8
+theme.mouse_finder_factor = 0.5
+
+-- theming prompt:
+theme.prompt_font = theme.font
+theme.prompt_bg = theme.bg_normal
+theme.prompt_fg = theme.fg_normal
+theme.prompt_bg_cursor = theme.bg_focus
+theme.prompt_fg_cursor = theme.fg_focus
+
+-- theming hoskeys popup:
+theme.hotkeys_font = theme.font
+theme.hotkeys_bg = colors.normal.bg_normal
+theme.hotkeys_fg = colors.normal.fg_normal
+theme.hotkeys_border_width = 2
+theme.hotkeys_border_color = colors.focused.bg_normal
+theme.hotkeys_shape = gears.shape.rounded_rect
+theme.hotkeys_opacity = 1.0
+theme.hotkeys_modifiers_fg = theme.fg_normal
+theme.hotkeys_label_bg = theme.bg_normal
+theme.hotkeys_label_fg = theme.fg_normal
+-- theme.hotkeys_group_margin = dpi(4)
+theme.hotkeys_description_font = theme.font
+
+-- theming notifications:
+theme.notification_font = theme.font
+theme.notification_position = "bottom_right"
+theme.notification_bg = theme.bg_normal
+theme.notification_fg = theme.fg_normal
+theme.notification_width = 320
+theme.notification_height = 120
+theme.notification_margin = 10
+theme.notification_border_width = 2
+theme.notification_shape = gears.shape.rounded_rect
+theme.notification_opacity = 1
+
+-- theming menubar:
+theme.menubar_fg_normal = colors.normal.background
+theme.menubar_bg_normal = colors.normal.background
+theme.menubar_border_width = dpi(0)
+theme.menubar_border_color = colors.normal.background
+theme.menubar_fg_normal = colors.focused.foreground
+theme.menubar_bg_normal = colors.focused.background
+
+-- theming menu:
+theme.menu_font = theme.font
+theme.menu_bg = theme.bg_normal
+theme.menu_height = dpi(20)
+theme.menu_width = dpi(160)
+theme.menu_border_color = "#0000"
+theme.menu_border_width = dpi(2)
+theme.menu_submenu = "ᐅ "
 
 -- Generate taglist squares:
 local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(taglist_square_size, theme.fg_normal)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(taglist_square_size, theme.fg_normal)
-
--- Variables set for theming notifications:
--- notification_font
--- notification_[bg|fg]
--- notification_[width|height|margin]
--- notification_[border_color|border_width|shape|opacity]
-
--- Variables set for theming the menu:
--- menu_[bg|fg]_[normal|focus]
--- menu_[border_color|border_width]
-theme.menu_submenu_icon = themes_path .. "default/submenu.png"
-theme.menu_height = dpi(15)
-theme.menu_width = dpi(100)
-
--- You can add as many variables as
--- you wish and access them by using
--- beautiful.variable in your rc.lua
---theme.bg_widget = "#cc0000"
+theme.taglist_squares_sel = theme_assets.taglist_squares_sel(taglist_square_size, colors.normal.foreground)
+theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(taglist_square_size, colors.normal.foreground)
 
 -- Define the image to load
 theme.titlebar_close_button_normal = themes_path .. "default/titlebar/close_normal.png"
