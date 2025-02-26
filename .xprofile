@@ -1,0 +1,36 @@
+# enable qt5ct and qt6ct for Qt theming
+export QT_QPA_PLATFORMTHEME=qt5ct
+#export QT_QPA_PLATFORMTHEME=qt6ct
+
+
+# Don't Randomly Turn off
+xset s off
+xset -dpms
+xset s noblank
+
+# Speedy keys
+xset r rate 210 40
+
+# Environment variables set everywhere
+export EDITOR="nvim"
+export TERMINAL="ghostty"
+export BROWSER="brave"
+export MENU="rofi -dmenu"
+export SETWALL="nitrogen --set-zoom-fill --save"
+export IMGVIEWER="nsxiv"
+
+# XDG Paths
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_HOME=$HOME/.local/share
+
+# remap caps to escape
+# setxkbmap -option caps:escape
+setxkbmap -option caps:ctrl_modifier
+
+# load Xresources
+xrdb ~/.Xresources
+
+# zsh config dir
+export ZDOTDIR=$HOME/.config/zsh
+
