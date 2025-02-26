@@ -1,14 +1,24 @@
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
--- Widget and layout library
 local wibox = require("wibox")
+local colors = require("colors")
 
--- text widget function
+-- Text widget function
 local function create_text(text)
-	local separator = wibox.widget.textbox()
-	separator:set_text(text)
-	return separator
+	local box = wibox.widget.textbox()
+	box:set_text(text)
+	return box
+end
+
+-- logo widget function
+local function create_logo_widget()
+	local box = wibox.widget.textbox()
+	box:set_text("🕸️")
+	box:buttons(gears.table.join(awful.button({}, 1, function()
+		awful.spawn.with_shell("rofi -show drun -show-icons")
+	end)))
+	return box
 end
 
 -- Keyboard layout widget function
@@ -16,36 +26,34 @@ local function create_keyboardlayout_widget()
 	return awful.widget.keyboardlayout()
 end
 
--- Clock widget function
+-- Clock widget function with background and text color customization
 local function create_clock_widget()
-	return wibox.widget.textclock("󱑃 %H:%M")
+	local clock = wibox.widget.textclock("[Time:%H:%M]")
+
+	-- Wrap the widget in a background container and set bg/fg colors
+	local container = wibox.container.background(clock)
+
+	return container
 end
 
 -- Date widget function
 local function create_date_widget()
-	return wibox.widget.textclock(" %Y/%m/%d")
+	return wibox.widget.textclock("[Date:%Y/%m/%d]")
 end
 
 -- Battery widget function
 local function create_battery_widget()
 	return awful.widget.watch('bash -c "cat /sys/class/power_supply/BAT0/capacity"', 30, function(widget, stdout)
 		local battery_level = tonumber(stdout)
-		widget:set_text(" " .. battery_level .. "%")
+		widget:set_text("[Bat:" .. battery_level .. "%]")
 	end)
 end
 
--- Create wibox for each screen
-awful.screen.connect_for_each_screen(function(s)
-	-- Create widgets
-	local separator = create_text("  ")
-	local keyboardlayout_widget = create_keyboardlayout_widget()
-	local clock_widget = create_clock_widget()
-	local date_widget = create_date_widget()
-	local battery_widget = create_battery_widget()
-
+-- layoutbox widget function
+local function create_layoutbox(s)
+	local box = awful.widget.layoutbox(s)
 	-- We need one layoutbox per screen.
-	s.mylayoutbox = awful.widget.layoutbox(s)
-	s.mylayoutbox:buttons(gears.table.join(
+	box:buttons(gears.table.join(
 		awful.button({}, 1, function()
 			awful.layout.inc(1)
 		end),
@@ -59,9 +67,18 @@ awful.screen.connect_for_each_screen(function(s)
 			awful.layout.inc(-1)
 		end)
 	))
+	return box
+end
 
-	-- Create a taglist widget
-	s.mytaglist = awful.widget.taglist({
+-- Systray widget function
+local function create_systray()
+	local tray = wibox.widget.systray()
+	return tray
+end
+
+-- taglist widget function
+local function create_taglist(s)
+	return awful.widget.taglist({
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
 		buttons = gears.table.join(
@@ -87,9 +104,11 @@ awful.screen.connect_for_each_screen(function(s)
 			end)
 		),
 	})
+end
 
-	-- Create a tasklist widget
-	s.mytasklist = awful.widget.tasklist({
+-- tasklist widget function
+local function create_tasklist(s)
+	return awful.widget.tasklist({
 		screen = s,
 		filter = awful.widget.tasklist.filter.currenttags,
 		buttons = gears.table.join(
@@ -111,7 +130,10 @@ awful.screen.connect_for_each_screen(function(s)
 			end)
 		),
 	})
+end
 
+-- Create wibox for each screen
+awful.screen.connect_for_each_screen(function(s)
 	-- Create the wibox
 	s.mywibox = awful.wibar({
 		position = "top",
@@ -119,7 +141,12 @@ awful.screen.connect_for_each_screen(function(s)
 		visible = true,
 		type = "dock",
 		height = 18, -- Adjust the height for horizontal wibox
-		width = s.geometry.width, -- Adjust the width for vertical wibox
+		-- width = s.geometry.width * 0.80, -- Adjust the width for vertical wibox
+		bg = colors.normal.background, -- Transparent background
+		fg = colors.normal.foreground, -- Text color
+		-- shape = gears.shape.rounded_rect, -- Rounded corners
+		border_width = 0,
+		border_color = "00000000", -- Border color
 	})
 
 	-- Add widgets to the wibox
@@ -127,21 +154,23 @@ awful.screen.connect_for_each_screen(function(s)
 		layout = wibox.layout.align.horizontal,
 		{ -- Left widgets
 			layout = wibox.layout.fixed.horizontal,
-			s.mytaglist,
+			create_logo_widget(),
+			create_taglist(s),
 			s.mypromptbox,
 		},
-		s.mytasklist, -- Middle widget
+		create_tasklist(s), -- Middle widget
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
-			keyboardlayout_widget,
-			date_widget,
-			separator,
-			clock_widget,
-			separator,
-			battery_widget,
-			separator,
-			wibox.widget.systray(),
-			s.mylayoutbox,
+			create_text("[KB:"),
+			create_keyboardlayout_widget(),
+			create_text("] "),
+			create_date_widget(),
+			create_text(" "),
+			create_clock_widget(),
+			create_text(" "),
+			-- create_battery_widget(),
+			create_systray(),
+			create_layoutbox(s),
 		},
 	})
 end)
