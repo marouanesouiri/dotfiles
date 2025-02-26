@@ -10,7 +10,7 @@ local function set_wallpaper(s)
 	end
 
 	-- Set the wallpaper
-	gears.wallpaper.maximized(os.getenv("HOME") .. "/.cache/wall.jpg", s, true)
+	gears.wallpaper.maximized(os.getenv("HOME") .. "/.cache/wall", s, true)
 end
 
 -- Set wallpaper for each screen
