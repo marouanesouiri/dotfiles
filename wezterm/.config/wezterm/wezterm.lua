@@ -21,6 +21,9 @@ config.window_padding = {
   top = 1, bottom = 1,
 }
 
+-- background ocpacity
+config.window_background_opacity = 0.9
+
 -- disable confirmation on window close
 config.window_close_confirmation = 'NeverPrompt'
 
