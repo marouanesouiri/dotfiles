@@ -13,11 +13,8 @@ xset r rate 210 40
 
 # Environment variables set everywhere
 export EDITOR="nvim"
-export TERMINAL="ghostty"
+export TERMINAL="wezterm"
 export BROWSER="brave"
-export MENU="rofi -dmenu"
-export SETWALL="nitrogen --set-zoom-fill --save"
-export IMGVIEWER="nsxiv"
 
 # XDG Paths
 export XDG_CONFIG_HOME=$HOME/.config
