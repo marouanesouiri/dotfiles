@@ -1,13 +1,16 @@
 return {
     keys = {
-        mod = "",
-        mod1 = "",
-        mod3 = "",
+        modkey = "Mod4",
+        altkey = "Mod1",
     },
-
+    -- apps 
     apps = {
         terminal = "wezterm",
-        editor = "nvim",
+        editor = os.getenv("EDITOR") or "nvim",
         browser = "brave",
+    },
+    -- appearance settings
+    appearance = {
+        usePywal = true,
     },
 }
