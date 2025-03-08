@@ -10,7 +10,8 @@ local config = wezterm.config_builder()
 config.color_scheme = 'Adventure'
 
 -- set the font
-config.font = wezterm.font 'FantasqueSansM Nerd Font'
+config.font = wezterm.font 'CaskaydiaCove Nerd Font'
+config.font_size = 10.5
 
 -- disable the tab bar
 config.enable_tab_bar = false
