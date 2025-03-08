@@ -7,7 +7,7 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
 -- {{ default apps
-terminal = "ghostty"
+terminal = "wezterm"
 editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 -- }}
