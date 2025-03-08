@@ -1,6 +1,7 @@
 -- Load the gears module
 local gears = require("gears")
 local beautiful = require("beautiful")
+local settings = require("settings")
 
 -- Set the wallpaper function
 local function set_wallpaper(s)
@@ -10,7 +11,7 @@ local function set_wallpaper(s)
 	end
 
 	-- Set the wallpaper
-	gears.wallpaper.maximized(os.getenv("HOME") .. "/.cache/wall", s, true)
+	gears.wallpaper.maximized(settings.appearance.wallpaper, s, true)
 end
 
 -- Set wallpaper for each screen

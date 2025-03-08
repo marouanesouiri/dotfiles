@@ -12,5 +12,6 @@ return {
     -- appearance settings
     appearance = {
         usePywal = true,
+        wallpaper = os.getenv("HOME") .. "/.cache/wall",
     },
 }
