@@ -17,8 +17,8 @@ naughty.config.defaults.border_color = beautiful.border_focus
 naughty.config.defaults.border_width = 1
 naughty.config.defaults.position = "bottom_right"
 naughty.config.defaults.font = beautiful.font
-naughty.config.defaults.width = 400
-naughty.config.defaults.max_width = 900
+naughty.config.defaults.width = 450
+naughty.config.defaults.max_width = 950
 naughty.config.defaults.shape = function(cr, w, h)
 	gears.shape.rounded_rect(cr, w, h, dpi(6))
 end
