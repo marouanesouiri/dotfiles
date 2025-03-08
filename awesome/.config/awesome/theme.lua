@@ -8,10 +8,10 @@ local colors = require("colors")
 
 local theme = {}
 
-theme.font = "FantasqueSansM Nerd Font 10"
+theme.font = "CaskaydiaCove Nerd Font 8"
 
 -- borders
-theme.useless_gap = 2
+theme.useless_gap = 1
 theme.border_width = 1
 theme.border_normal = colors.normal.background
 theme.border_focus = colors.normal.foreground
