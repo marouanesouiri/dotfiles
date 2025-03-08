@@ -1,10 +1,10 @@
+local settings = require("settings")
+
 -- Colors configuration
 local colors = {}
 
-
 -- Change true with false if you dont want to use pywal
-local usePywal = true
-if usePywal then
+if settings.appearance.usePywal then
 	local pywall = {}
 	for line in io.lines(os.getenv("HOME").."/.cache/wal/colors") do
 		table.insert(pywall, line)
