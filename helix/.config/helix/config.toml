@@ -1,0 +1,12 @@
+theme = "tokyonight_storm"
+
+[editor]
+line-number = "relative"
+
+[keys.normal]
+esc = ["collapse_selection", "keep_primary_selection"]
+"0" = "goto_line_start" # Bind 0 to go to the beginning of the line
+"$" = "goto_line_end"   # Ensure $ goes to the end of the line
+
+[editor.cursor-shape]
+insert = "bar"
