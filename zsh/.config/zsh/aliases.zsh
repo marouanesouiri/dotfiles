@@ -1,8 +1,10 @@
-# ls
-# alias ls="exa --icons --color=always --group-directories-first"
-# alias ll="exa --icons --color=always --group-directories-first -lah"
-# alias ld="exa --icons --color=always --group-directories-first -d"
-# alias l.="exa --color=always -a | grep -E '^\.'"
+# pacman
+alias pac="sudo pacman --color always"
+alias pac-unlock="sudo rm -rf /var/lib/pacman/db.lck"
+alias aur="paru --color always"
+
+#====>> ls <<====#
+alias ll="ls --color=always --group-directories-first -lah"
 
 #====>> cp <<====#
 alias cp="cp -i"
@@ -64,7 +66,7 @@ alias cdcz="cd ~/.config/zsh/"
 alias cdcn="cd ~/.config/nvim/"
 alias cdce="cd ~/.emacs.d/"
 
-#====>> curl <<====#
+## curl
 # get the weather
 alias weather="curl wttr.in"
 # fun with rick roll
@@ -79,18 +81,22 @@ alias parrot="curl parrot.live"
 # fun with parrots
 alias crypto-rate="curl rate.sx"
 
-#====>> fzf <<====#
+# fzf
 fcd     () { cd "$(find -type d | fzf )" }
 frm     () { rm "$(find | fzf -m )" }
 fvi     () { $EDITOR "$(find  -type f | fzf)" }
 open    () { xdg-open "$(find -type f | fzf)" }
 getpath () { find -type f | fzf | sed 's/^..//' | tr -d '\n' | xclip -selection c }
 
-#====>> nvim <<====#
+# Timeshift backup
+alias timeshift-list="sudo timeshift --list"
+alias timeshift-delt="sudo timeshift --delete --snapshot"
+alias timeshift-cret="sudo timeshift --create --comments"
+
+# Vim, Nvim
 alias v="nvim"
 
-#====>> emacs <<====#
-alias v="nvim"
+# emacs
 alias emacst="/usr/bin/emacs -nw"
 alias e="emacsclient -c -a 'emacs'"
 alias emacs-kill-deamon="emacsclient -e '(kill-emacs)'"
@@ -100,11 +106,11 @@ alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
 alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
 alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
 
-#====>> awesome wm <<====#
+## awesome WM
 #Restart awesome WM
 alias reload="echo 'awesome.restart()' | awesome-client"
 
-#====>> kitty <<====#
+# kitty
 #Preview images in kitty
 alias kcat="kitty +kitten icat"
 
@@ -112,6 +118,7 @@ alias kcat="kitty +kitten icat"
 alias df='df -h'            # human-readable sizes
 alias free='free -m'        # show sizes in MB
 
+## Ram
 # get top process eating memory
 alias psmem='ps auxf | sort -nr -k 4 | head -5'
 # get top process eating cpu ##
