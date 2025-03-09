@@ -101,11 +101,11 @@ awful.tag.add(_, {
 })
 
 -- Create a hidden scratchpad tag (workspace)
-awful.tag.add("", {
-	name = "[]=", -- The tag name
-	screen = awful.screen.focused(),
-	layout = awful.layout.suit.tile,
-	selected = false,
-	gap_single_client = false,
-	hidden = true, -- This hides the tag from the workspace widget
-})
+--awful.tag.add("", {
+--	name = "[]=", -- The tag name
+--	screen = awful.screen.focused(),
+--	layout = awful.layout.suit.tile,
+--	selected = false,
+--	gap_single_client = false,
+--	hidden = true, -- This hides the tag from the workspace widget
+--})
