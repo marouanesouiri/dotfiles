@@ -40,4 +40,7 @@ mkdir -p "$fontsDir" || { echo "Failed to create directory $fontsDir"; exit 1; }
 # install FantasqueSansMono font
 install_font "FantasqueSansMono" "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/FantasqueSansMono.zip"
 
+# install CascadiaCode font
+install_font "CascadiaCode" "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/CascadiaCode.zip"
+
 echo "All fonts installed successfully!"
