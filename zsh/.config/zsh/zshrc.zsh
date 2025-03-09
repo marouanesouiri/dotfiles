@@ -13,7 +13,7 @@ source "$ZDOTDIR/zshenv.zsh"  # zshenv
 source "$ZDOTDIR/aliases.zsh" # aliases
 
 # Set the primary prompt
-PROMPT="%F{cyan}%n@%m%f %F{yellow}%~%f %F{green}→ %f"
+PROMPT="%F{cyan}ⵜⵉⴼⵉⵏⴰⵖ%f %F{yellow}%~%f %F{green}→ %f"
 # Set the right prompt
 RPROMPT='%F{red}[%D{%L:%M:%S}]%f'
 
