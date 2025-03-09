@@ -22,13 +22,22 @@ local function create_clock_widget()
 
 	-- Wrap the widget in a background container and set bg/fg colors
 	local container = wibox.container.background(clock)
+	container.bg = colors.focused.background
+	container.fg = colors.focused.foreground
 
 	return container
 end
 
 -- Date widget function
 local function create_date_widget()
-	return wibox.widget.textclock("ⴷⴰⵜⴻ:%Y/%m/%d")
+	local date = wibox.widget.textclock("ⴷⴰⵜⴻ:%Y/%m/%d")
+
+	-- Wrap the widget in a background container and set bg/fg colors
+	local container = wibox.container.background(date)
+	container.bg = colors.focused.background
+	container.fg = colors.focused.foreground
+
+	return container
 end
 
 -- Battery widget function
@@ -139,27 +148,27 @@ awful.screen.connect_for_each_screen(function(s)
 		bg = colors.normal.background, -- Transparent background
 		fg = colors.normal.foreground, -- Text color
 		-- shape = gears.shape.rounded_rect, -- Rounded corners
-		border_width = 1,
+		border_width = 0,
 		border_color = colors.normal.foreground, -- Border color
 	})
 
 	-- Add widgets to the wibox
 	s.mywibox:setup({
-		layout = wibox.layout.align.horizontal,
+		expand = "none",
+
 		{ -- Left widgets
 			layout = wibox.layout.fixed.horizontal,
-			create_taglist(s),
-			s.mypromptbox,
-		},
-		create_tasklist(s), -- Middle widget
-		{ -- Right widgets
-			layout = wibox.layout.fixed.horizontal,
-			create_text("<< "),
-			create_date_widget(),
-			create_text("  ⃓ "),
 			create_clock_widget(),
-			create_text("  ⃓ "),
-			-- create_battery_widget(),
+		},
+
+		-- Middle widget
+		layout = wibox.layout.align.horizontal,
+		create_taglist(s),
+
+		-- Right widgets
+		{
+			layout = wibox.layout.fixed.horizontal,
+			create_date_widget(),
 			create_systray(),
 			create_layoutbox(s),
 		},
